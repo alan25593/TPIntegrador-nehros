@@ -1,0 +1,42 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+.slick-dots li button::before {
+  font-size: 0.75rem !important;
+  padding-top: 0.75rem;
+}
+
+.slick-dots li.slick-active button::before {
+  color: #ffffff !important;
+}
+
+.slick-dots li button::before {
+  color: #000000 !important;
+}
+
+html {
+  overflow: scroll;
+  overflow-x: hidden;
+}
+::-webkit-scrollbar {
+  width: 0;
+  background: transparent;
+}
+
+/* Animacion de Fade */
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
+}
+
+.fadeIn {
+  animation-name: fadeIn;
+  animation-duration: 3s;
+}

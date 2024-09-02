@@ -1,0 +1,9 @@
+{
+  "name": "Nehros",
+  "short_name": "Nehros",
+  "description": "Creando experiencias digitales, haz crecer a tu empresa!",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#9747ff",
+  "theme_color": "#9747ff"
+}
