@@ -153,7 +153,7 @@ const FormWithProps: React.FC = () => {
                   <SelectGroup>
                     <SelectItem value="Silver">Silver</SelectItem>
                     <SelectItem value="Gold">Gold</SelectItem>
-                    <SelectItem value="Platinium">Platinum</SelectItem>
+                    <SelectItem value="Platinum">Platinum</SelectItem>
                     <SelectItem value="Undefined">
                       Todavía no me decidí
                     </SelectItem>

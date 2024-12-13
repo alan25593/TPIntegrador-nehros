@@ -9,7 +9,7 @@ const Home = () => {
           CREANDO <br />
           <span className="">EXPERIENCIAS DIGITALES</span>
         </h1>
-        <h4 className="pb-6 tracking-wide xl:text-[23px] lg:text-[21px] text-[19px] w-full leading-8 text-center font-medium text-[#864ad4]">
+        <h4 className="pb-6 tracking-wide xl:text-[23px] lg:text-[21px] text-[19px] w-full leading-8 text-center font-medium text-[#864ad4] dark:text-[#e0aaff]">
           Lanzar tu presencia online es el primer paso para llevar tu empresa a
           otro nivel
         </h4>

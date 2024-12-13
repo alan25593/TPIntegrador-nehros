@@ -15,13 +15,13 @@ const MainDesktop = () => {
       <div>
         <Home />
       </div>
-      <div id="servicios">
+      <div id="services">
         <Services />
       </div>
       <div id="aboutus">
         <AboutUs />
       </div>
-      <div id="proyectos">
+      <div id="proyects">
         <Proyects />
       </div>
       <div id="pricing">

@@ -40,3 +40,44 @@ html {
   animation-name: fadeIn;
   animation-duration: 3s;
 }
+
+
+/* Estilos para Conoce al Equipo */
+.close-button {
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  cursor: pointer;
+  color: #9747FF;
+  background-color: white;
+  border: none;
+  border-radius: 50%;
+  width: 2rem;
+  height: 2rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.close-button:hover {
+  background-color: #e0e0e0;
+}
+
+.modal-background {
+  position: fixed;
+  inset: 0;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 50;
+}
+
+.modal-content {
+  background-color: white;
+  border-radius: 0.5rem;
+  padding: 1.5rem;
+  position: relative;
+  width: 80%;
+  max-width: 800px;
+}

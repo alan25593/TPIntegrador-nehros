@@ -1,5 +1,4 @@
-"use client";
-import { Link as ScrollLink, scroller } from "react-scroll";
+import { Link as ScrollLink } from "react-scroll";
 import DrawerWithForm from "../ui/DrawerWithForm";
 import DarkModeButton from "../ui/DarkModeButton";
 import Image from "next/image";
@@ -22,66 +21,38 @@ const Navbar: React.FC = () => {
       <div className="flex justify-center flex-grow">
         <div className="flex items-center xl:space-x-6 lg:space-x-4 space-x-2">
           <ScrollLink
-            className=" font-semibold xl:text-xl lg:text-lg md:text-base text-sm xl:px-5 lg:px-3 px-2 cursor-pointer"
-            to="servicios"
+            className="font-semibold xl:text-xl lg:text-lg md:text-base text-sm xl:px-5 lg:px-3 px-2 cursor-pointer"
+            to="services"
             smooth={true}
             duration={1000}
             offset={0}
-            onClick={() =>
-              scroller.scrollTo("servicios", {
-                duration: 500,
-                delay: 0,
-                smooth: "easeInOutQuart",
-              })
-            }
           >
             Servicios
           </ScrollLink>
           <ScrollLink
-            className=" font-semibold xl:text-xl lg:text-lg md:text-base text-sm xl:px-5 lg:px-3 px-2 cursor-pointer"
+            className="font-semibold xl:text-xl lg:text-lg md:text-base text-sm xl:px-5 lg:px-3 px-2 cursor-pointer"
             to="aboutus"
             smooth={true}
             duration={1000}
             offset={0}
-            onClick={() =>
-              scroller.scrollTo("aboutus", {
-                duration: 500,
-                delay: 0,
-                smooth: "easeInOutQuart",
-              })
-            }
           >
             Quiénes somos
           </ScrollLink>
           <ScrollLink
-            className=" font-semibold xl:text-xl lg:text-lg md:text-base text-sm xl:px-5 lg:px-3 px-2 cursor-pointer"
-            to="proyectos"
+            className="font-semibold xl:text-xl lg:text-lg md:text-base text-sm xl:px-5 lg:px-3 px-2 cursor-pointer"
+            to="proyects"
             smooth={true}
             duration={1000}
             offset={0}
-            onClick={() =>
-              scroller.scrollTo("proyectos", {
-                duration: 500,
-                delay: 0,
-                smooth: "easeInOutQuart",
-              })
-            }
           >
             Proyectos
           </ScrollLink>
           <ScrollLink
-            className=" font-semibold xl:text-xl lg:text-lg md:text-base text-sm xl:px-5 lg:px-3 px-2 cursor-pointer"
+            className="font-semibold xl:text-xl lg:text-lg md:text-base text-sm xl:px-5 lg:px-3 px-2 cursor-pointer"
             to="pricing"
             smooth={true}
             duration={1000}
             offset={0}
-            onClick={() =>
-              scroller.scrollTo("pricing", {
-                duration: 500,
-                delay: 0,
-                smooth: "easeInOutQuart",
-              })
-            }
           >
             Planes
           </ScrollLink>

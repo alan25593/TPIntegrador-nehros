@@ -20,7 +20,7 @@ const Pricing: React.FC = () => {
       ],
     },
     {
-      title: "Platinium",
+      title: "Platinum",
       features: [
         "Todo lo incluido en el plan Gold",
         "Posicionamiento web SEO",

@@ -64,10 +64,12 @@ const Form: React.FC<FormProps> = ({ selectedPlan }) => {
         () => {
           setIsSendTrue(true);
           setIsSendFalse(false);
+          setTimeout(() => setIsSendTrue(false), 5000);
         },
         () => {
           setIsSendFalse(true);
           setIsSendTrue(false);
+          setTimeout(() => setIsSendFalse(false), 8000);
         }
       )
       .finally(() => {
@@ -157,7 +159,7 @@ const Form: React.FC<FormProps> = ({ selectedPlan }) => {
                   <SelectGroup>
                     <SelectItem value="Silver">Silver</SelectItem>
                     <SelectItem value="Gold">Gold</SelectItem>
-                    <SelectItem value="Platinium">Platinum</SelectItem>
+                    <SelectItem value="Platinum">Platinum</SelectItem>
                     <SelectItem value="Undefined">
                       Todavía no me decidí
                     </SelectItem>

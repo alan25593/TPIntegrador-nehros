@@ -1,0 +1,54 @@
+pipeline {
+    agent any
+
+    parameters {
+        string(name: 'BRANCH', defaultValue: 'main', description: 'Branch del repositorio a desplegar')
+    }
+
+    environment {
+        S3_BUCKET = "nombre-del-bucket-s3"
+        CLOUDFRONT_DISTRIBUTION_ID = "id-de-tu-cloudfront"
+    }
+
+    stages {
+        stage('Checkout') {
+            steps {
+                git url: 'https://github.com/alan25593/TPIntegrador-nehros.git', branch: "${params.BRANCH}", credentialsId: 'github-credentials'
+            }
+        }
+
+        stage('Build') {
+            steps {
+                sh '''
+                npm install
+                npm run build
+                '''
+            }
+        }
+
+        stage('Deploy to S3') {
+            steps {
+                sh '''
+                aws s3 sync ./out/ s3://$S3_BUCKET --delete
+                '''
+            }
+        }
+
+        stage('Invalidate CloudFront Cache') {
+            steps {
+                sh '''
+                aws cloudfront create-invalidation --distribution-id $CLOUDFRONT_DISTRIBUTION_ID --paths "/*"
+                '''
+            }
+        }
+    }
+
+    post {
+        success {
+            echo 'Despliegue en producción completado exitosamente.'
+        }
+        failure {
+            echo 'Hubo un error en el despliegue en producción.'
+        }
+    }
+}

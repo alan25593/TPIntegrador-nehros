@@ -12,7 +12,7 @@ const projects = [
     descripcion:
       "Página web diseñada y desarrollada para AutoCirculo, una reconocida concesionaria de automóviles.",
     imageUrl: "/images/proyects/autoexpert.webp",
-    url: "https://www.autocirculoexpert.ar/",
+    url: "https://auto-circulo.vercel.app/",
   },
   {
     id: 2,
@@ -52,7 +52,7 @@ const projects = [
     descripcion:
       "Página web creada para comercializar etiquetas de todo tipo, dar a conocer a la empresa y expandir su negocio.",
     imageUrl: "/images/proyects/etiquetalo.webp",
-    url: "https://www.etiquetalo.com.ar/",
+    url: "https://website-etiquetalo.vercel.app/",
   },
 ];
 

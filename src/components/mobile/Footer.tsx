@@ -65,19 +65,7 @@ const Footer = () => {
       <div className="flex px-10 items-center mt-8 md:mt-0">
         <img src="/images/logowhite.webp" alt="logo blanco" />
       </div>
-      <div className="text-sm flex flex-auto gap-6 items-center text-center pt-8">
-        <div><span className="font-bold">DevOps: </span><br /> 
-        <Link href="https://www.linkedin.com/in/alan-lampert/"target="blank">
-        Alan Lampert</Link></div>     
-        <hr className="w-[2px] bg-white h-[40px]" />
-        <div><span className="font-bold">Principal Developer: </span><br /> 
-        <Link href="https://www.linkedin.com/in/franco-avolio/"target="blank">
-        Franco Avolio</Link></div>
-        <hr className="w-[2px] bg-white h-[40px]" />
-        <div><span className="font-bold">Founder: </span><br /> 
-        <Link href="https://www.linkedin.com/in/agustin-araneo/"target="blank">
-        Agustín Araneo</Link></div>
-      </div>
+
       <div className="flex flex-col items-center mt-8 md:mt-0 md:w-1/3 p-8">
         <Link href="/terms" className="text-[16px] xl:text-[18px] mb-4 ml-4">
           Términos y Condiciones
@@ -86,7 +74,6 @@ const Footer = () => {
           Política de Privacidad
         </Link>
       </div>
-
     </div>
   );
 };

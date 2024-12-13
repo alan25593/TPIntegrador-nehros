@@ -52,7 +52,7 @@ const projects = [
     descripcion:
       "Página web creada para comercializar etiquetas de todo tipo, dar a conocer a la empresa y expandir su negocio.",
     imageUrl: "/images/proyects/etiquetalo.webp",
-    url: "https://www.etiquetalo.com.ar/",
+    url: "https://website-etiquetalo.vercel.app/",
   },
 ];
 
