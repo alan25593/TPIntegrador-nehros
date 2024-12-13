@@ -46,9 +46,15 @@ pipeline {
     post {
         success {
             echo 'Despliegue en producción completado exitosamente.'
+            cleanWs()
         }
         failure {
             echo 'Hubo un error en el despliegue en producción.'
+            cleanWs()
+        }
+        always {
+            echo 'Limpieza del workspace ejecutada.'
+            cleanWs()
         }
     }
 }

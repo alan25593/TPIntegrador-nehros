@@ -47,11 +47,17 @@ pipeline {
     }
 
     post {
-        success {
-            echo 'Despliegue en TEST completado exitosamente.'
+            success {
+                echo 'Despliegue en TEST completado exitosamente.'
+                cleanWs()
+            }
+            failure {
+                echo 'Hubo un error en el despliegue en TEST.'
+                cleanWs()
+            }
+            always {
+                echo 'Limpieza del workspace ejecutada.'
+                cleanWs()
+            }
         }
-        failure {
-            echo 'Hubo un error en el despliegue en TEST.'
-        }
-    }
 }
