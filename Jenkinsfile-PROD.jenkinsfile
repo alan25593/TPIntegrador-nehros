@@ -1,6 +1,11 @@
 pipeline {
     agent any
 
+    tools {
+        nodejs 'NodeJS23' 
+    }
+
+
     parameters {
         string(name: 'BRANCH', defaultValue: 'main', description: 'Branch del repositorio a desplegar')
     }

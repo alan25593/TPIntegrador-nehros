@@ -1,6 +1,10 @@
 pipeline {
     agent any
 
+    tools {
+        nodejs 'NodeJS23' 
+    }
+
     environment {
         IMAGE_NAME = "nehros-test"
         CONTAINER_NAME = "nehros-test-container"
@@ -47,17 +51,17 @@ pipeline {
     }
 
     post {
-            success {
-                echo 'Despliegue en TEST completado exitosamente.'
-                cleanWs()
-            }
-            failure {
-                echo 'Hubo un error en el despliegue en TEST.'
-                cleanWs()
-            }
-            always {
-                echo 'Limpieza del workspace ejecutada.'
-                cleanWs()
-            }
+        success {
+            echo 'Despliegue en TEST completado exitosamente.'
+            cleanWs()
         }
+        failure {
+            echo 'Hubo un error en el despliegue en TEST.'
+            cleanWs()
+        }
+        always {
+            echo 'Limpieza del workspace ejecutada.'
+            cleanWs()
+        }
+    }
 }
