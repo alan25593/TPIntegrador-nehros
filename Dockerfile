@@ -1,12 +1,13 @@
 FROM node:18-alpine
-
 WORKDIR /app
 
-COPY ./.next/standalone ./
-COPY ./.next/static ./_next/static
-COPY ./public ./_next/public
+COPY ./.next ./.next
+COPY ./public ./public
+COPY ./package.json ./package.json
+COPY ./package-lock.json ./package-lock.json
 
-CMD ["node", "server.js"]
+RUN npm ci --only=production
 
 EXPOSE 3000
 
+CMD ["node", "server.js"]
