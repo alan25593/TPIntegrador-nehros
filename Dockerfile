@@ -1,10 +1,12 @@
-FROM nginx:alpine
-WORKDIR /usr/share/nginx/html
+FROM node:18-alpine
 
-COPY ./.next/ .
+WORKDIR /app
+
+COPY ./.next/standalone ./
+COPY ./.next/static ./static
 COPY ./public ./public
 
-COPY ./nginx.conf /etc/nginx/conf.d/default.conf
+CMD ["node", "server.js"]
 
-EXPOSE 80
-CMD ["nginx", "-g", "daemon off;"]
+EXPOSE 3000
+
