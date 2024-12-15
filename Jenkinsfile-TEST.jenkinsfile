@@ -2,28 +2,28 @@ pipeline {
     agent any
 
     tools {
-        nodejs 'NodeJS23'
+        nodejs 'NodeJS23' // Tu instalación de Node.js en Jenkins
     }
 
     environment {
-        IMAGE_NAME = "nehros-test"
-        CONTAINER_NAME = "nehros-test-container"
-        DOCKER_PORT = "3000"
+        IMAGE_NAME = "nextjs-app"
+        CONTAINER_NAME = "nextjs-container"
+        APP_PORT = "3000"
     }
 
     stages {
         stage('Checkout') {
             steps {
-                git url: 'https://github.com/alan25593/TPIntegrador-nehros.git', branch: 'main', credentialsId: 'alan25593'
+                // Clonar el repositorio
+                git url: 'https://github.com/tu-usuario/tu-repositorio.git', branch: 'main', credentialsId: 'github-credentials-id'
             }
         }
 
-        stage('Install Dependencies and Build') {
+        stage('Build') {
             steps {
+                // Construir el proyecto
                 sh '''
-                echo "Instalando dependencias..."
                 pnpm install
-                echo "Construyendo la aplicación..."
                 pnpm build
                 '''
             }
@@ -31,20 +31,19 @@ pipeline {
 
         stage('Debug Workspace') {
             steps {
+                // Verificar el contenido del workspace
                 sh '''
-                echo "Verificando contenido del workspace..."
+                echo "Verificando contenido del workspace:"
                 ls -la
                 ls -la .next || echo "Directorio '.next' no encontrado"
-                ls -la .next/static || echo "Directorio '.next/static' no encontrado"
-                ls -la public || echo "Directorio 'public' no encontrado"
                 '''
             }
         }
 
         stage('Create Docker Image') {
             steps {
+                // Crear la imagen Docker
                 sh '''
-                echo "Construyendo la imagen de Docker..."
                 docker build -t $IMAGE_NAME .
                 '''
             }
@@ -53,48 +52,36 @@ pipeline {
         stage('Run Docker Container') {
             steps {
                 script {
+                    // Verificar si el contenedor existe y reiniciarlo si es necesario
                     def containerExists = sh(
                         script: "docker ps -a --format '{{.Names}}' | grep -w $CONTAINER_NAME || true",
                         returnStatus: true
                     ) == 0
-
+        
                     if (containerExists) {
                         echo "El contenedor $CONTAINER_NAME ya existe. Deteniéndolo y eliminándolo..."
                         sh '''
-                        docker stop $CONTAINER_NAME || true
-                        docker rm $CONTAINER_NAME || true
+                        docker stop $CONTAINER_NAME
+                        docker rm $CONTAINER_NAME
                         '''
-                    } else {
-                        echo "El contenedor $CONTAINER_NAME no existe. Levantando uno nuevo..."
                     }
-
+        
+                    echo "Iniciando el contenedor $CONTAINER_NAME..."
                     sh '''
-                    echo "Levantando un nuevo contenedor..."
-                    docker run -d --name $CONTAINER_NAME -p $DOCKER_PORT:3000 $IMAGE_NAME
+                    docker run -d --name $CONTAINER_NAME -p $APP_PORT:3000 $IMAGE_NAME
                     '''
                 }
-            }
-        }
-
-        stage('Verify Deployment') {
-            steps {
-                sh '''
-                echo "Verificando si el contenedor está corriendo..."
-                docker ps | grep $CONTAINER_NAME || echo "El contenedor no está corriendo."
-                echo "Verificando logs del contenedor..."
-                docker logs $CONTAINER_NAME || echo "No se encontraron logs."
-                '''
             }
         }
     }
 
     post {
         success {
-            echo 'Despliegue en TEST completado exitosamente.'
+            echo 'Despliegue completado exitosamente.'
             cleanWs()
         }
         failure {
-            echo 'Hubo un error en el despliegue en TEST.'
+            echo 'Error durante el despliegue.'
             cleanWs()
         }
         always {
