@@ -9,7 +9,6 @@ pipeline {
         IMAGE_NAME = "nehros-test"
         CONTAINER_NAME = "nehros-test-container"
         DOCKER_PORT = "3000"
-        WORKSPACE = "${env.WORKSPACE}"
     }
 
     triggers {
@@ -32,10 +31,20 @@ pipeline {
             }
         }
 
+        stage('Debug Workspace') {
+            steps {
+                sh '''
+                echo "Verificando contenido del workspace:"
+                ls -la
+                ls -la out || echo "Directorio 'out' no encontrado"
+                '''
+            }
+        }
+
         stage('Create Docker Image') {
             steps {
                 sh '''
-                docker build -t $IMAGE_NAME .
+                DOCKER_BUILDKIT=1 docker build -t $IMAGE_NAME --build-arg BUILD_PATH=out .
                 '''
             }
         }
@@ -54,15 +63,15 @@ pipeline {
     post {
         success {
             echo 'Despliegue en TEST completado exitosamente.'
-            cleanWs()
+            cleanWorkspace()
         }
         failure {
             echo 'Hubo un error en el despliegue en TEST.'
-            cleanWs()
+            cleanWorkspace()
         }
         always {
             echo 'Limpieza del workspace ejecutada.'
-            cleanWs()
+            cleanWorkspace()
         }
     }
 }
