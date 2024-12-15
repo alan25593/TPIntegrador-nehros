@@ -1,5 +1,6 @@
 FROM nginx:alpine
 WORKDIR /usr/share/nginx/html
-COPY ./out .
+ARG BUILD_PATH=/app/out
+COPY ${BUILD_PATH} .
 EXPOSE 80
 CMD ["nginx", "-g", "daemon off;"]
