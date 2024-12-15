@@ -2,8 +2,9 @@ FROM nginx:alpine
 WORKDIR /usr/share/nginx/html
 
 COPY ./.next/static ./static
-COPY ./public ./public
 COPY ./.next/server ./server
+COPY ./public ./public
+
 COPY ./nginx.conf /etc/nginx/conf.d/default.conf
 
 EXPOSE 80
