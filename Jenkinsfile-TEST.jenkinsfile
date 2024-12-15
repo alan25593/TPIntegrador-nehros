@@ -27,7 +27,6 @@ pipeline {
                 sh '''
                 pnpm install
                 pnpm build
-                pnpm export
                 '''
             }
         }
