@@ -1,0 +1,10 @@
+workflow-aggregator
+git
+github
+pipeline-github
+pipeline-git
+docker-workflow
+credentials
+plain-credentials
+scm-api
+blueocean
