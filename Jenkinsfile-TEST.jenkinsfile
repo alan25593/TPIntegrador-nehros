@@ -20,7 +20,7 @@ pipeline {
 
         stage('Install Dependencies and Build') {
             steps {
-                timeout(time: 10, unit: 'MINUTES') { // Limita la etapa a 10 minutos
+                timeout(time: 10, unit: 'MINUTES') {
                     sh '''
                     echo "Instalando dependencias..."
                     pnpm install
@@ -37,15 +37,14 @@ pipeline {
                 echo "Verificando contenido del workspace..."
                 ls -la
                 ls -la .next || echo "Directorio '.next' no encontrado"
-                ls -la .next/static || echo "Directorio '.next/static' no encontrado"
-                ls -la public || echo "Directorio 'public' no encontrado"
+                ls -la .next/standalone || echo "Directorio '.next/standalone' no encontrado"
                 '''
             }
         }
 
         stage('Create Docker Image') {
             steps {
-                timeout(time: 5, unit: 'MINUTES') { // Limita la etapa a 5 minutos
+                timeout(time: 5, unit: 'MINUTES') {
                     sh '''
                     echo "Construyendo la imagen de Docker..."
                     docker build -t $IMAGE_NAME .
