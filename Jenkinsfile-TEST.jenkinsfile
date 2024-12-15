@@ -9,6 +9,7 @@ pipeline {
         IMAGE_NAME = "nehros-test"
         CONTAINER_NAME = "nehros-test-container"
         DOCKER_PORT = "3000"
+        WORKSPACE = "${env.WORKSPACE}"
     }
 
     triggers {
