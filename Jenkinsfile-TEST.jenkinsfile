@@ -15,7 +15,7 @@ pipeline {
         stage('Checkout') {
             steps {
                 // Clonar el repositorio
-                git url: 'https://github.com/tu-usuario/tu-repositorio.git', branch: 'main', credentialsId: 'github-credentials-id'
+                git url: 'https://github.com/tu-usuario/tu-repositorio.git', branch: 'main', credentialsId: 'alan25593'
             }
         }
 
