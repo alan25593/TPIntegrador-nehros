@@ -2,7 +2,7 @@ pipeline {
     agent any
 
     tools {
-        nodejs 'NodeJS23' // Nombre de la instalación de Node.js en Jenkins
+        nodejs 'NodeJS23' // Configuración de Node.js en Jenkins
     }
 
     environment {
@@ -22,9 +22,9 @@ pipeline {
             steps {
                 timeout(time: 10, unit: 'MINUTES') {
                     sh '''
-                    echo "Instalando dependencias..."
-                    pnpm install
-                    echo "Construyendo la aplicación..."
+                    echo "Instalando dependencias con pnpm..."
+                    pnpm install --frozen-lockfile
+                    echo "Construyendo la aplicación Next.js..."
                     pnpm build
                     '''
                 }
@@ -38,6 +38,7 @@ pipeline {
                 ls -la
                 ls -la .next || echo "Directorio '.next' no encontrado"
                 ls -la .next/standalone || echo "Directorio '.next/standalone' no encontrado"
+                ls -la .next/static || echo "Directorio '.next/static' no encontrado"
                 '''
             }
         }
@@ -46,7 +47,7 @@ pipeline {
             steps {
                 timeout(time: 5, unit: 'MINUTES') {
                     sh '''
-                    echo "Construyendo la imagen de Docker..."
+                    echo "Construyendo la imagen de Docker con multietapas..."
                     docker build -t $IMAGE_NAME .
                     '''
                 }
