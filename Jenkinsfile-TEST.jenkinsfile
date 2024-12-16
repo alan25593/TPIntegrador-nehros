@@ -2,13 +2,14 @@ pipeline {
     agent any
 
     tools {
-        nodejs 'NodeJS23' // Configuración de Node.js en Jenkins
+        nodejs 'NodeJS23' 
     }
 
     environment {
         IMAGE_NAME = "nehros-test"
         CONTAINER_NAME = "nehros-test-container"
         DOCKER_PORT = "3000"
+        BUILD_DIR = ".next" 
     }
 
     stages {
@@ -31,14 +32,24 @@ pipeline {
             }
         }
 
-        stage('Debug Workspace') {
+        stage('Debug Build Artifacts') {
             steps {
                 sh '''
-                echo "Verificando contenido del workspace..."
-                ls -la
-                ls -la .next || echo "Directorio '.next' no encontrado"
-                ls -la .next/standalone || echo "Directorio '.next/standalone' no encontrado"
-                ls -la .next/static || echo "Directorio '.next/static' no encontrado"
+                echo "Verificando artefactos de build..."
+                ls -la $BUILD_DIR || echo "Directorio de build no encontrado"
+                ls -la public || echo "Directorio 'public' no encontrado"
+                '''
+            }
+        }
+
+        stage('Prepare Docker Context') {
+            steps {
+                sh '''
+                echo "Preparando archivos para Docker..."
+                mkdir -p docker-build
+                cp -r public docker-build/
+                cp -r $BUILD_DIR/static docker-build/public/static
+                cp -r $BUILD_DIR/standalone docker-build/
                 '''
             }
         }
@@ -47,8 +58,8 @@ pipeline {
             steps {
                 timeout(time: 5, unit: 'MINUTES') {
                     sh '''
-                    echo "Construyendo la imagen de Docker con multietapas..."
-                    docker build -t $IMAGE_NAME .
+                    echo "Construyendo la imagen de Docker..."
+                    docker build -t $IMAGE_NAME docker-build/
                     '''
                 }
             }
