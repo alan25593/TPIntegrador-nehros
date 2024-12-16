@@ -4,7 +4,8 @@ WORKDIR /app
 
 COPY public ./public
 COPY .next/static ./static
-COPY .next/standalone ./standalone
+COPY .next ./public
+COPY .next/standalone ./
 
 EXPOSE 3000
 
