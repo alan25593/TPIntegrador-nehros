@@ -2,7 +2,7 @@ pipeline {
     agent any
 
     tools {
-        nodejs 'NodeJS23'
+        nodejs 'NodeJS23' // Nombre de la instalación de Node.js en Jenkins
     }
 
     environment {
@@ -20,10 +20,10 @@ pipeline {
 
         stage('Install Dependencies and Build') {
             steps {
-                timeout(time: 10, unit: 'MINUTES') { 
+                timeout(time: 10, unit: 'MINUTES') {
                     sh '''
                     echo "Instalando dependencias..."
-                    pnpm install --frozen-lockfile
+                    pnpm install
                     echo "Construyendo la aplicación..."
                     pnpm build
                     '''
@@ -38,31 +38,17 @@ pipeline {
                 ls -la
                 ls -la .next || echo "Directorio '.next' no encontrado"
                 ls -la .next/static || echo "Directorio '.next/static' no encontrado"
-                ls -la .next/standalone || echo "Directorio '.next/standalone' no encontrado"
                 ls -la public || echo "Directorio 'public' no encontrado"
-                '''
-            }
-        }
-
-        stage('Prepare Docker Build Context') {
-            steps {
-                sh '''
-                echo "Preparando contexto de build para Docker..."
-                mkdir -p docker-build
-                cp -r .next/standalone docker-build/
-                cp -r .next/static docker-build/public/static
-                cp -r public docker-build/public
-                cp Dockerfile docker-build/
                 '''
             }
         }
 
         stage('Create Docker Image') {
             steps {
-                timeout(time: 5, unit: 'MINUTES') {
+                timeout(time: 5, unit: 'MINUTES') { 
                     sh '''
                     echo "Construyendo la imagen de Docker..."
-                    docker build -t $IMAGE_NAME docker-build/
+                    docker build -t $IMAGE_NAME .
                     '''
                 }
             }

@@ -3,8 +3,8 @@ FROM node:18-alpine AS runner
 WORKDIR /app
 
 COPY public ./public
-COPY .next/static ./public/static
-COPY .next/standalone ./
+COPY .next/static ./static
+COPY .next/standalone ./standalone
 
 EXPOSE 3000
 
