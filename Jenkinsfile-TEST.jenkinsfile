@@ -59,7 +59,7 @@ pipeline {
                 timeout(time: 5, unit: 'MINUTES') {
                     sh '''
                     echo "Construyendo la imagen de Docker..."
-                    docker build -t $IMAGE_NAME docker-build/
+                    docker build -t $IMAGE_NAME .
                     '''
                 }
             }
@@ -78,6 +78,8 @@ pipeline {
                         sh '''
                         docker stop $CONTAINER_NAME || true
                         docker rm $CONTAINER_NAME || true
+                        docker image prune -a -f
+
                         '''
                     }
 
