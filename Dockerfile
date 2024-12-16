@@ -1,10 +1,20 @@
+FROM node:18-alpine AS builder
+
+WORKDIR /app
+
+COPY . .
+
+RUN npm install -g pnpm && pnpm install --frozen-lockfile
+RUN pnpm build
+
 FROM node:18-alpine AS runner
 
 WORKDIR /app
 
-COPY .next ./.next
-COPY public ./public
+COPY --from=builder /app/.next/standalone ./
+COPY --from=builder /app/public ./public
+COPY --from=builder /app/.next/static ./.next/static
 
 EXPOSE 3000
 
-CMD ["node", ".next/standalone/server.js"]
+CMD ["node", "server.js"]
