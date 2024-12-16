@@ -7,4 +7,4 @@ COPY public ./public
 
 EXPOSE 3000
 
-CMD ["node", ".next/standalone/index.js"]
+CMD ["node", ".next/standalone/server.js"]
