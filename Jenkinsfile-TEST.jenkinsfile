@@ -2,14 +2,13 @@ pipeline {
     agent any
 
     tools {
-        nodejs 'NodeJS23' 
+        nodejs 'NodeJS23'
     }
 
     environment {
         IMAGE_NAME = "nehros-test"
         CONTAINER_NAME = "nehros-test-container"
         DOCKER_PORT = "3000"
-        BUILD_DIR = ".next" 
     }
 
     stages {
@@ -21,35 +20,39 @@ pipeline {
 
         stage('Install Dependencies and Build') {
             steps {
-                timeout(time: 10, unit: 'MINUTES') {
+                timeout(time: 10, unit: 'MINUTES') { 
                     sh '''
-                    echo "Instalando dependencias con pnpm..."
+                    echo "Instalando dependencias..."
                     pnpm install --frozen-lockfile
-                    echo "Construyendo la aplicación Next.js..."
+                    echo "Construyendo la aplicación..."
                     pnpm build
                     '''
                 }
             }
         }
 
-        stage('Debug Build Artifacts') {
+        stage('Debug Workspace') {
             steps {
                 sh '''
-                echo "Verificando artefactos de build..."
-                ls -la $BUILD_DIR || echo "Directorio de build no encontrado"
+                echo "Verificando contenido del workspace..."
+                ls -la
+                ls -la .next || echo "Directorio '.next' no encontrado"
+                ls -la .next/static || echo "Directorio '.next/static' no encontrado"
+                ls -la .next/standalone || echo "Directorio '.next/standalone' no encontrado"
                 ls -la public || echo "Directorio 'public' no encontrado"
                 '''
             }
         }
 
-        stage('Prepare Docker Context') {
+        stage('Prepare Docker Build Context') {
             steps {
                 sh '''
-                echo "Preparando archivos para Docker..."
+                echo "Preparando contexto de build para Docker..."
                 mkdir -p docker-build
-                cp -r public docker-build/
-                cp -r $BUILD_DIR/static docker-build/public/static
-                cp -r $BUILD_DIR/standalone docker-build/
+                cp -r .next/standalone docker-build/
+                cp -r .next/static docker-build/public/static
+                cp -r public docker-build/public
+                cp Dockerfile docker-build/
                 '''
             }
         }
@@ -59,7 +62,7 @@ pipeline {
                 timeout(time: 5, unit: 'MINUTES') {
                     sh '''
                     echo "Construyendo la imagen de Docker..."
-                    docker build -t $IMAGE_NAME .
+                    docker build -t $IMAGE_NAME docker-build/
                     '''
                 }
             }
@@ -78,8 +81,6 @@ pipeline {
                         sh '''
                         docker stop $CONTAINER_NAME || true
                         docker rm $CONTAINER_NAME || true
-                        docker image prune -a -f
-
                         '''
                     }
 
