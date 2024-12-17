@@ -14,7 +14,7 @@ export default function Component() {
               Términos y Condiciones
             </h1>
             <p className="text-gray-500 text-center dark:text-[#FFF]">
-              Actualizado: Septiembre 19, 2024.
+              Actualizado: Diciembre 17, 2024.
             </p>
           </div>
           <div className="mt-6 prose max-w-none dark:text-[#FFF]">
