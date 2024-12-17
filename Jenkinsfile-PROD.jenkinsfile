@@ -24,19 +24,19 @@ pipeline {
 
         stage('Install Dependencies') {
             steps {
-                echo "Instalando dependencias de Node.js..."
+                echo "Instalando dependencias de Node.js con pnpm..."
                 sh '''
-                npm install
+                pnpm install
                 '''
             }
         }
 
         stage('Build and Export') {
             steps {
-                echo "Construyendo y exportando el proyecto Next.js..."
+                echo "Construyendo y exportando el proyecto Next.js con pnpm..."
                 sh '''
-                npm run build
-                npm run export
+                pnpm build
+                pnpm export
                 '''
             }
         }
