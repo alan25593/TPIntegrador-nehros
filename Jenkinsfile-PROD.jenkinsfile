@@ -5,13 +5,14 @@ pipeline {
         nodejs 'NodeJS23'
     }
 
-    parameters {
-        string(name: 'BRANCH', defaultValue: 'main', description: 'Branch del repositorio a desplegar')
-    }
-
     environment {
         S3_BUCKET = "tpintegrador-nehros"
-        CLOUDFRONT_DISTRIBUTION_ID = "E38Z17P3Q94C7L" 
+        CLOUDFRONT_DISTRIBUTION_ID = "E38Z17P3Q94C7L"
+        NEXT_OUTPUT = "export"
+    }
+
+    parameters {
+        string(name: 'BRANCH', defaultValue: 'main', description: 'Branch del repositorio a desplegar')
     }
 
     stages {
@@ -36,7 +37,6 @@ pipeline {
                 echo "Construyendo y exportando el proyecto Next.js con pnpm..."
                 sh '''
                 pnpm build
-                pnpm export
                 '''
             }
         }
