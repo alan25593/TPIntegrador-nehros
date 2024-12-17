@@ -2,30 +2,39 @@ pipeline {
     agent any
 
     tools {
-        nodejs 'NodeJS23' 
+        nodejs 'NodeJS23'
     }
-
 
     parameters {
         string(name: 'BRANCH', defaultValue: 'main', description: 'Branch del repositorio a desplegar')
     }
 
     environment {
-        S3_BUCKET = "nombre-del-bucket-s3"
-        CLOUDFRONT_DISTRIBUTION_ID = "id-de-tu-cloudfront"
+        S3_BUCKET = "tpintegrador-nehros"
+        CLOUDFRONT_DISTRIBUTION_ID = "E38Z17P3Q94C7L" 
     }
 
     stages {
         stage('Checkout') {
             steps {
-                git url: 'https://github.com/alan25593/TPIntegrador-nehros.git', branch: "${params.BRANCH}", credentialsId: 'github-credentials'
+                echo "Clonando repositorio desde la rama: ${params.BRANCH}"
+                git url: 'https://github.com/alan25593/TPIntegrador-nehros.git', branch: "${params.BRANCH}", credentialsId: 'alan25593'
             }
         }
 
-        stage('Build') {
+        stage('Install Dependencies') {
             steps {
+                echo "Instalando dependencias de Node.js..."
                 sh '''
                 npm install
+                '''
+            }
+        }
+
+        stage('Build Project') {
+            steps {
+                echo "Construyendo el proyecto..."
+                sh '''
                 npm run build
                 '''
             }
@@ -33,14 +42,16 @@ pipeline {
 
         stage('Deploy to S3') {
             steps {
+                echo "Subiendo los archivos construidos a S3..."
                 sh '''
-                aws s3 sync ./out/ s3://$S3_BUCKET --delete
+                aws s3 sync . s3://$S3_BUCKET --exclude ".git/*" --exclude "node_modules/*" --delete
                 '''
             }
         }
 
         stage('Invalidate CloudFront Cache') {
             steps {
+                echo "Invalidando la caché de CloudFront..."
                 sh '''
                 aws cloudfront create-invalidation --distribution-id $CLOUDFRONT_DISTRIBUTION_ID --paths "/*"
                 '''
@@ -50,15 +61,13 @@ pipeline {
 
     post {
         success {
-            echo 'Despliegue en producción completado exitosamente.'
-            cleanWs()
+            echo '✅ Despliegue exitoso en AWS S3 y CloudFront.'
         }
         failure {
-            echo 'Hubo un error en el despliegue en producción.'
-            cleanWs()
+            echo '❌ Error durante el despliegue en AWS.'
         }
         always {
-            echo 'Limpieza del workspace ejecutada.'
+            echo "🧹 Limpiando el workspace..."
             cleanWs()
         }
     }
