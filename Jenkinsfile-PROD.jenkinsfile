@@ -31,20 +31,21 @@ pipeline {
             }
         }
 
-        stage('Build Project') {
+        stage('Build and Export') {
             steps {
-                echo "Construyendo el proyecto..."
+                echo "Construyendo y exportando el proyecto Next.js..."
                 sh '''
                 npm run build
+                npm run export
                 '''
             }
         }
 
         stage('Deploy to S3') {
             steps {
-                echo "Subiendo los archivos construidos a S3..."
+                echo "Subiendo los archivos estáticos exportados a S3..."
                 sh '''
-                aws s3 sync . s3://$S3_BUCKET --exclude ".git/*" --exclude "node_modules/*" --delete
+                aws s3 sync ./out/ s3://$S3_BUCKET --delete
                 '''
             }
         }
