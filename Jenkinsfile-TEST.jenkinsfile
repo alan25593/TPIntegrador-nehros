@@ -2,13 +2,17 @@ pipeline {
     agent any
 
     tools {
-        nodejs 'NodeJS23' // Nombre de la instalación de Node.js en Jenkins
+        nodejs 'NodeJS23'
     }
 
     environment {
         IMAGE_NAME = "nehros-test"
         CONTAINER_NAME = "nehros-test-container"
         DOCKER_PORT = "3000"
+    }
+
+    triggers {
+        githubPush()
     }
 
     stages {
