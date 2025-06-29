@@ -14,7 +14,7 @@ const Services: React.FC = () => {
           <div className="rounded-full bg-[#9747FF] w-[30px] h-[30px] flex items-center justify-center text-white font-medium mr-2">
             1
           </div>
-          <Image
+          <img
             src="/images/services/web.webp"
             alt="desarrollo web ico"
             width={300}
@@ -36,7 +36,7 @@ const Services: React.FC = () => {
           <div className="rounded-full bg-[#9747FF] w-[30px] h-[30px] flex items-center justify-center text-white font-medium">
             2
           </div>
-          <Image
+          <img
             src="/images/services/ux.webp"
             alt="diseño ux/ui ico"
             width={300}
@@ -58,7 +58,7 @@ const Services: React.FC = () => {
           <div className="rounded-full bg-[#9747FF] w-[30px] h-[30px] flex items-center justify-center text-white font-medium">
             3
           </div>
-          <Image
+          <img
             src="/images/services/seo.webp"
             alt="seo ico"
             width={300}
