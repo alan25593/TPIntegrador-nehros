@@ -9,6 +9,8 @@ pipeline {
         IMAGE_NAME = "nehros-test"
         CONTAINER_NAME = "nehros-test-container"
         DOCKER_PORT = "3000"
+        NEXUS_REGISTRY = "172.31.15.248:5000"
+        NEXUS_REPO = "alan-tp"
     }
 
     triggers {
@@ -50,13 +52,30 @@ pipeline {
         stage('Create Docker Image') {
             steps {
                 timeout(time: 5, unit: 'MINUTES') { 
-                    sh '''
-                    echo "Construyendo la imagen de Docker..."
-                    docker build -t $IMAGE_NAME .
-                    '''
+                    script {
+                        def dateTag = new Date().format('yyyyMMddHHmm', TimeZone.getTimeZone('America/Argentina/Buenos_Aires')) 
+                        env.IMAGE_TAG = "${dateTag}" 
+
+                        sh """
+                        echo "Construyendo la imagen de Docker con tag de fecha..."
+                        docker build -t ${IMAGE_NAME}:${IMAGE_TAG} .
+                        echo "Taggeando la imagen para Nexus..."
+                        docker tag ${IMAGE_NAME}:${IMAGE_TAG} ${NEXUS_REGISTRY}/${NEXUS_REPO}/${IMAGE_NAME}:${IMAGE_TAG}
+                        """
+                    }
                 }
             }
         }
+
+//        stage('Push Docker Image to Nexus') {
+//           steps {
+//                script {
+//                    echo "Iniciando sesión en Nexus Docker Registry..."
+//                    sh "docker push ${NEXUS_REGISTRY}/${NEXUS_REPO}/${IMAGE_NAME}:${IMAGE_TAG}"
+//                    echo "Imagen ${NEXUS_REGISTRY}/${NEXUS_REPO}/${IMAGE_NAME}:${IMAGE_TAG} subida a Nexus."
+//                }
+//            }
+//        }
 
         stage('Run Docker Container') {
             steps {
@@ -105,6 +124,10 @@ pipeline {
         always {
             echo 'Limpieza del workspace ejecutada.'
             cleanWs()
+            script {
+                echo "Eliminando imágenes Docker <none>..."
+                sh "docker rmi \$(docker images -f 'dangling=true' -q) || true"
+            }
         }
     }
 }
