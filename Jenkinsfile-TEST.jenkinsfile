@@ -67,15 +67,15 @@ pipeline {
             }
         }
 
-//        stage('Push Docker Image to Nexus') {
-//           steps {
-//                script {
-//                    echo "Iniciando sesión en Nexus Docker Registry..."
-//                    sh "docker push ${NEXUS_REGISTRY}/${NEXUS_REPO}/${IMAGE_NAME}:${IMAGE_TAG}"
-//                    echo "Imagen ${NEXUS_REGISTRY}/${NEXUS_REPO}/${IMAGE_NAME}:${IMAGE_TAG} subida a Nexus."
-//                }
-//            }
-//        }
+        stage('Push Docker Image to Nexus') {
+           steps {
+                script {
+                    echo "Iniciando sesión en Nexus Docker Registry..."
+                    sh "docker push ${NEXUS_REGISTRY}/${NEXUS_REPO}/${IMAGE_NAME}:${IMAGE_TAG}"
+                    echo "Imagen ${NEXUS_REGISTRY}/${NEXUS_REPO}/${IMAGE_NAME}:${IMAGE_TAG} subida a Nexus."
+                }
+            }
+        }
 
         stage('Run Docker Container') {
             steps {
