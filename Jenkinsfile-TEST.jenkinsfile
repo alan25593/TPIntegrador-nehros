@@ -54,10 +54,11 @@ pipeline {
                 timeout(time: 5, unit: 'MINUTES') { 
                     script {
                         def dateTag = new Date().format('yyyyMMddHHmm', TimeZone.getTimeZone('America/Argentina/Buenos_Aires')) 
-                        env.IMAGE_TAG = "${dateTag}" 
+                        def commitId = sh(script: 'git rev-parse --short=6 HEAD', returnStdout: true).trim()
+                        env.IMAGE_TAG = "${dateTag}-${commitId}" 
 
                         sh """
-                        echo "Construyendo la imagen de Docker con tag de fecha..."
+                        echo "Construyendo la imagen de Docker con tag de fecha y commit..."
                         docker build -t ${IMAGE_NAME}:${IMAGE_TAG} .
                         echo "Taggeando la imagen para Nexus..."
                         docker tag ${IMAGE_NAME}:${IMAGE_TAG} ${NEXUS_REGISTRY}/${NEXUS_REPO}/${IMAGE_NAME}:${IMAGE_TAG}
