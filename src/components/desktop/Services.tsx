@@ -21,7 +21,7 @@ const Services: React.FC = () => {
             className="w-[300px] mx-auto"
           />
           <p className="text-center text-[20px] text-[#9747FF] font-bold tracking-[0.45px]">
-            Desarrollo Web
+            Desarrollo Web ALAN EN VIVO
             <br />
             <span className="lg:text-[16px] text-[14px] text-center text-gray-700 dark:text-white font-[400]">
               Construcción de tu presencia online
